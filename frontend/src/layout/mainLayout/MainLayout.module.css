@@ -1,0 +1,20 @@
+.outerContainer{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    overflow: hidden;
+    gap: 2px;
+}
+.mainSection{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* gap: 1rem; */
+}
+.outlet{
+    background-color: #F9F9F9;
+    /* margin: auto 1rem;
+    align-self: center; */
+    flex: 1;
+  
+}

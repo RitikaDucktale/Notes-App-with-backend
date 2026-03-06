@@ -1,0 +1,23 @@
+.container{
+    height: 100%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding-left: 2em;
+}
+.container input{
+    all: unset;
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 1.1rem;
+    
+}
+.container input:focus{
+    border: white 2px solid;
+}
+.container img{
+    height: 20px;
+}
