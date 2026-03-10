@@ -1,4 +1,4 @@
-import api from './Api.ts';
+import api from './api.ts';
 
 import type{ User } from '../types/authTypes.tsx';
 const signupApi = (data:User)=>{

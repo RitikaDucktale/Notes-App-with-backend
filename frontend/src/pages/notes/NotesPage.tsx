@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useNotesContext } from "../../contexts/NotesContext";
-import notesApi from "../../apis/notesApi";
+import {getNotesReq} from "../../apis/notesApi";
 
 import styles from "./NotesPage.module.css";
 import NotFoundImg from '../../assets/notFoundImg.png';
@@ -10,7 +10,7 @@ import Header from "../../components/header/Header";
 import DisplayNotes from "../../components/displayNotes/DisplayNotes";
 
 const NotesPage = () => {
-  const { notes } = useNotesContext();
+  const { notes ,setNotes} = useNotesContext();
   const [isDisplayFavs, setIsDisplayfavs] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [debounceVal,setDebounceVal] = useState('');
@@ -23,8 +23,8 @@ const NotesPage = () => {
    const fetchNotes = async ()=>{
     console.log('try..')
           try{
-            const res = await notesApi();
-            console.log(res);
+            const res = await getNotesReq();
+            console.log(res.data);
           }catch(err){
             console.log("Error fetching notes!" , err)
           }

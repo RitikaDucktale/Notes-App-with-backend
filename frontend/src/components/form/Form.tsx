@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import styles from "./form.module.css";
 import { useNotesContext } from "../../contexts/NotesContext";
+import { createNotesReq } from "../../apis/notesApi";
 
 const Form = () => {
   const {
@@ -23,6 +24,7 @@ const Form = () => {
     content: "",
     isFavs: false
   });
+
   const [isvalidate,setIsValidate] = useState(false);
 
   const validateFields = ()=>{
@@ -36,19 +38,30 @@ const Form = () => {
   const onsubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(!validateFields()) return;
-    if (id == "" && title!=="" && content!=="") {
+    if (!id && title && content) {
       //new note creation
       console.log("id not exists..");
-      setNote((prev) => {
-        return {
-          ...prev,
+      const newNote = {
           id: uuidv4(),
           title: title,
           content: content,
-          isFavs: isFavs,
-          isReadMore:false,
+          isFavs: isFavs
         };
-      });
+      setNote(newNote);
+
+      async function create() {
+        try{
+          const res = await createNotesReq(newNote);
+          console.log("resposne==>",res);
+
+        }catch(err){
+          console.log("Error creating notes..",err)
+        }
+      }
+        create();
+  
+
+   
    if (note.id) { //note.id != ""
          setNotes((prev) => [...prev, note]);
         closeModal();
