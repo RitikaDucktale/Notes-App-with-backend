@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { loginApi } from "../../apis/authApi";
 import type { User } from "../../types/authTypes";
 
 import styles from "../loginPage/Login.module.css";
+import { useNotesContext } from "../../contexts/NotesContext";
 
 const Login = () => {
+  const {setNotes,notes} = useNotesContext();
+  console.log("notes",notes)
   const navigate = useNavigate();
+ 
   const [user, setUser] = useState<User>({
     email: "",
     password: "",
@@ -26,9 +31,12 @@ const Login = () => {
       if (res.status == 200) {
         const token = res.data?.token;
         localStorage.setItem("token", token);
+        toast.success("Login Successfull")
         navigate("/dashboard");
+         setNotes([]);
       }
-    } catch (err) {
+    } catch (err:any) {
+      toast.error(err.response.data.message )
       console.log("login failed...", err);
     }
   };

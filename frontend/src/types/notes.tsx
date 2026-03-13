@@ -26,6 +26,7 @@ export interface Notes{
     setId:React.Dispatch<React.SetStateAction<string>>;
     buttonText:string;
     setButtonText:React.Dispatch<React.SetStateAction<string>>;
-
+    loader:boolean;
+    setLoader:React.Dispatch<React.SetStateAction<boolean>>;
 
 }

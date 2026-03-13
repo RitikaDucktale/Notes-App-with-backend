@@ -1,16 +1,25 @@
 .formContainer{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     height: 100vh;
     /* height: 50vh; */
     align-items: center;
     background-color: #7B76CA;
+
+}
+h1{
+    text-align: center;
+    margin-top: 0;
 }
 .form{
-border: 2px solid #594894;
-    padding: 3rem 2rem 3rem 2rem;
+/* border: 2px solid #594894; */
+background-color: white;
+    padding: 2.5rem 2rem 2.5rem 2rem;
     border-radius: 8px;
     transition: linear 0.3s;
+     box-shadow: 2px 2px 4px 1px  #646097;
+     height: 60vh;
 }
 .form:hover{
     box-shadow: 1px 1px 8px  #454272;
@@ -19,19 +28,48 @@ border: 2px solid #594894;
 .inputContainer{
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 13px;
     
 }
+
 .inputContainer input{
+    /* all:unset; */
+    border: white;
     width: 30vw;
 }
 .inputContainer button{
     all: unset;
-    padding: 0.5rem;
+    padding: 1rem;
+    margin-top: 1rem;
     background-color: rgb(39, 24, 80);
     text-align: center;
     border-radius: 4px;
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: bold;
+    transition: linear 0.25s;
 }
+.inputContainer button:hover{
+    transform: translateY(-1px);
+}
+p a{
+    text-decoration: none;
+}
+
+.emailInput{
+    display: flex;
+     box-shadow: 1px 1px 3px 2px rgb(221, 219, 219);
+      border-radius: 8px;
+      align-items: center;
+      padding-right: 10px;
+      transition: linear 0.25s;
+}
+/* .emailInput :focus{
+    border: 2px solid #454272;
+} */
+ /* .emailInput :hover{
+    transform: scale(1.1,1.1);
+ } */
+  .emailInput:hover{
+    transform: scale(1.01,1.01)
+  }

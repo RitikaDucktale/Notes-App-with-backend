@@ -18,10 +18,10 @@ const DisplayNotes = (props: Props) => {
   return (
     <div className={styles.cardsOuterContainer}>
       <div className={styles.cardsContainer}>
-          {displayNotes.length? displayNotes.map(note=>(
-            <Card note={note} key={note.id}/>
+          { displayNotes.map(note=>(
+            <Card note={note} key={note._id}/>
           ))
-          : <img src={image} alt="" className={styles.img}/>
+         
         }
       </div>
     </div>

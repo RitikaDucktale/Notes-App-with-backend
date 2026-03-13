@@ -1,8 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import {toast} from "react-toastify";
+
 import styles from "./form.module.css";
 import { useNotesContext } from "../../contexts/NotesContext";
-import { createNotesReq } from "../../apis/notesApi";
+import { createNotesReq, editNotesReq } from "../../apis/notesApi";
+import type { Note } from "../../types/notes";
 
 const Form = () => {
   const {
@@ -17,16 +20,16 @@ const Form = () => {
     isFavs,
     buttonText,
   } = useNotesContext();
-
+  console.log("iddd...",id)
   const [note, setNote] = useState({
     id: "",
     title: "",
     content: "",
     isFavs: false
   });
-
   const [isvalidate,setIsValidate] = useState(false);
 
+  
   const validateFields = ()=>{
   if(title==="" || content===""){
 
@@ -35,10 +38,48 @@ const Form = () => {
     }
     return true;
   }
+  
+  async function createNotes(note:Note) {
+        try{
+          const res = await createNotesReq(note);
+          console.log("resposne==>",res);
+          if(res.status===200){
+            toast.success("New note created successfully!")
+            setNotes(prev=> [...prev,res?.data]);
+          }
+        }catch(err:any){
+          console.log("Error creating notes..",err)
+          toast.error(err.response.data.message)
+        }
+  }
+  async function editNotes(formData:Note){
+        try{
+          const res = await editNotesReq(id,formData);
+          console.log('req sent..')
+          console.log(res);
+          if(res.status===200){
+            toast.success("Note Updated successfully")
+            setNotes(prev=>{
+              return prev.map(note=>{
+                if(note._id=== res.data._id){
+                  return {...res.data}
+                }
+                return note;
+              })
+            })
+          }
+        }catch(err:any){
+          console.log(err);
+          toast.error(err.res.data.message)
+        }
+
+      }
+
+
   const onsubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if(!validateFields()) return;
-    if (!id && title && content) {
+    if (id==='' && title && content) {
       //new note creation
       console.log("id not exists..");
       const newNote = {
@@ -47,38 +88,28 @@ const Form = () => {
           content: content,
           isFavs: isFavs
         };
-      setNote(newNote);
 
-      async function create() {
-        try{
-          const res = await createNotesReq(newNote);
-          console.log("resposne==>",res);
+       setNote(newNote);
 
-        }catch(err){
-          console.log("Error creating notes..",err)
-        }
-      }
-        create();
+        createNotes(newNote); //api function call
   
-
-   
-   if (note.id) { //note.id != ""
-         setNotes((prev) => [...prev, note]);
         closeModal();
         setTitle("");
         setContent("");
-      }
+  
     } else {
       //edit exiting note
+      console.log("idddd..",id)
+          const formData = {
+          id: id,
+          title: title,
+          content: content,
+          isFavs: isFavs
+        };
+
       console.log("id exits");
-      setNotes((prev) => {
-        return prev.map((note) => {
-          if (note.id === id) {
-            return { ...note, title: title, content: content };
-          }
-          return note;
-        });
-      });
+      editNotes(formData);
+  
       closeModal();
       setId("");
       setTitle("");

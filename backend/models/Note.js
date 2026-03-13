@@ -8,6 +8,14 @@ const notesSchema = new mongoose.Schema({
     content:{
         type:String,
         required:true
+    },
+    isFavs:{
+        type:Boolean,
+        required:true
+    },
+    userId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:"User"
     }
 });
 

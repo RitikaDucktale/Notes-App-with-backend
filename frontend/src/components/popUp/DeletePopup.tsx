@@ -1,12 +1,29 @@
+import {toast} from 'react-toastify';
+
+import  {deleteNotesReq } from '../../apis/notesApi';
 import { useNotesContext } from '../../contexts/NotesContext';
 import styles from './deletePopup.module.css';
 
 const DeletePopup = ()=>{
     const {setNotes,modalData,closeModal} = useNotesContext();
-    const onYes = ()=>{
-        setNotes(prev=>{
-            return prev.filter(note=> note.id!==modalData);
-        })
+    const onYes = async ()=>{
+        try{
+            const res = await deleteNotesReq(modalData);
+            if(res.status===200){
+                toast.success('Note deleted successfully!')
+                setNotes(prev=>{
+                    return prev.filter(note=> note._id !== modalData)
+                })
+            }
+        }catch(err:any){
+            console.log(err)
+            toast.error(err.response.data.message);
+        }
+
+        // setNotes(prev=>{
+        //     return prev.filter(note=> note.id!==modalData);
+        // })
+        
         closeModal();
     }
     const onCancel = ()=>{

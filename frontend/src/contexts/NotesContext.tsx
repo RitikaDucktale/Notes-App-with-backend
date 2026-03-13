@@ -20,6 +20,7 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
   const [id, setId] = useState("");
   const [isFavs, setIsFavs] = useState(false);
   const [buttonText, setButtonText] = useState("Create");
+  const [loader,setLoader] = useState(false);
   
   const openFormPageModal = () => {
     setModalType("formPage");
@@ -53,7 +54,9 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
         modalData,
         openFormPageModal,
         openDeleteModal,
-        closeModal
+        closeModal,
+        loader,
+        setLoader
       }}
     >
       {children}
