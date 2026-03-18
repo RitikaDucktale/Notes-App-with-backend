@@ -10,6 +10,7 @@ import type { Note, Notes, ModalType } from "../types/notes";
 const NotesContext = createContext<Notes | null>(null);
 export const NotesProvider = ({ children }: PropsWithChildren) => {
   const [notes, setNotes] = useState<Note[]>([]);
+  const [favNotesIds,setfavNotesIds] = useState<string[]>([]);
   console.log(notes);
 
   const [modalType, setModalType] = useState<ModalType>(null);
@@ -18,7 +19,6 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [id, setId] = useState("");
-  const [isFavs, setIsFavs] = useState(false);
   const [buttonText, setButtonText] = useState("Create");
   const [loader,setLoader] = useState(false);
   
@@ -40,14 +40,14 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
       value={{
         notes,
         setNotes,
+        favNotesIds,
+        setfavNotesIds,
         title,
         setTitle,
         content,
         setContent,
         id,
         setId,
-        isFavs,
-        setIsFavs,
         buttonText,
         setButtonText,
         modalType,

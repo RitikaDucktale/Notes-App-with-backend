@@ -1,7 +1,7 @@
 import { Suspense, useEffect, useState } from "react";
 import { lazy } from "react";
 import { useNotesContext } from "../../contexts/NotesContext";
-import { getNotesReq } from "../../apis/notesApi";
+import { getFavNotes, getNotesReq } from "../../apis/notesApi";
 
 import Loader from "../../components/loader/Loader";
 import styles from "./NotesPage.module.css";
@@ -14,15 +14,17 @@ const DisplayNotes = lazy(
 // import DisplayNotes from "../../components/displayNotes/DisplayNotes";
 
 const NotesPage = () => {
-  const { notes, setNotes, setLoader } = useNotesContext();
+  const { notes, setNotes, setLoader,setfavNotesIds,favNotesIds } = useNotesContext();
   const [isDisplayFavs, setIsDisplayfavs] = useState(false);
   const [searchVal, setSearchVal] = useState("");
   const [debounceVal, setDebounceVal] = useState("");
   const [activeBtnId, setActiveBtnId] = useState("");
   const btnIds = ["All", "Favourites"];
   console.log("notes", notes);
-
+  
   let displayNotes = notes;
+  console.log('display notes after re render..',displayNotes)
+  console.log('isDisplayFavs state==>',isDisplayFavs)
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -42,20 +44,23 @@ const NotesPage = () => {
     fetchNotes();
   }, []);
 
-  // useEffect(()=>{
-  //   setNotes([]);
-  //    const fetchNotes = async ()=>{
-  //   console.log('try..')
-  //         try{
-  //           const res = await getNotesReq();
-  //           console.log(res.data);
-  //           setNotes(res?.data);
-  //         }catch(err){
-  //           console.log("Error fetching notes!" , err)
-  //         }
-  //   }
-  //   fetchNotes();
-  // },[token])
+  useEffect(()=>{
+    const fetchFavNotes = async ()=>{
+      try{
+        const res = await getFavNotes();
+        console.log("favNOtesIds data==>",res);
+        setfavNotesIds(res.data.favNotesIds)
+       setTimeout(()=>{
+        console.log(favNotesIds)
+       },3000) 
+      }catch(err:any){
+        console.log(err.response.message)
+      }
+
+    }
+    fetchFavNotes();
+  },[])
+
 
   useEffect(() => {
     console.log("inide useeffect");
@@ -82,15 +87,19 @@ const NotesPage = () => {
     });
   }
 
-  if (isDisplayFavs) displayNotes = displayNotes.filter((note) => note.isFavs);
+
+  if (isDisplayFavs) displayNotes = notes.filter((note) =>favNotesIds.includes(note._id));
+
+  console.log("display notes after getting favs==>",displayNotes);
+  
   const notFound = displayNotes.length === 0;
 
-  const onclickHandler = (id: string) => {
+  const onclickHandler = async (id: string) => {
     setActiveBtnId(id);
-    if (id === "Favourites") setIsDisplayfavs(true);
-    else setIsDisplayfavs(false);
+     if (id === "Favourites"){
+      setIsDisplayfavs(true)
+     }else setIsDisplayfavs(false)
   };
-
   return (
     <>
       <div className={styles.container}>

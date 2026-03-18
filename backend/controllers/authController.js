@@ -5,6 +5,7 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const User = require('../models/User');
 
 const signup = async (req, res) => {
+  try{
   const {email,password} = req.body;
   if(!email || !password){
     return res.status(400).json({
@@ -12,7 +13,6 @@ const signup = async (req, res) => {
     })
   }
 
-  try{
     const existingUser = await User.findOne({email}); // returns promise..
     if(existingUser){
       console.log(true
@@ -68,11 +68,11 @@ const hashPass = async (password)=>{
 }
 
 const login = async (req, res) => {
+  try{
   if (!req.body) {
     console.log("body is empty in login");
     return;
   }
-  try{
     const { email, password } = req.body;
     console.log(req.body)
     const user = await User.findOne({email});
@@ -101,7 +101,7 @@ const login = async (req, res) => {
     return res.status(500).json({
       message:err
     })
-    console.log(err)
+
   }
 }
 

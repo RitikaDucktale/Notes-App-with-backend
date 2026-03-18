@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { loginApi } from "../../apis/authApi";
 import type { User } from "../../types/authTypes";
 
+import openEyeImg from "../../assets/eye.png";
+import closeEyeImg from "../../assets/closed-eyes.png";
 import styles from "../loginPage/Login.module.css";
 import { useNotesContext } from "../../contexts/NotesContext";
 
 const Login = () => {
   const {setNotes,notes} = useNotesContext();
+    const [showPass, setshowPass] = useState(false);
+  
   console.log("notes",notes)
   const navigate = useNavigate();
  
@@ -17,6 +21,10 @@ const Login = () => {
     email: "",
     password: "",
   });
+
+  const onclickShowPass = () => {
+    setshowPass((prev) => !prev);
+  };
 
   const onchangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => {
@@ -53,8 +61,9 @@ const Login = () => {
   return (
     <div className={styles.formContainer}>
       <form className={styles.form} onSubmit={onsubmitHandler}>
+        <h1>Log In</h1>
         <div className={styles.inputContainer}>
-          <input
+          {/* <input
             type="email"
             placeholder="Email..."
             name="email"
@@ -67,8 +76,51 @@ const Login = () => {
             name="password"
             onChange={onchangeHandler}
             value={user.password}
-          />
+          /> */}
+
+
+
+
+
+
+            <div className={styles.inputField}>
+            <input
+              type="email"
+              placeholder="Email..."
+              name="email"
+              onChange={onchangeHandler}
+              value={user.email}
+            />
+          </div>
+
+          <div className={styles.inputField}>
+            <input
+              type={showPass ? "text" : "password"}
+              placeholder="Password..."
+              name="password"
+              onChange={onchangeHandler}
+              value={user.password}
+            />
+            {showPass ? (
+              <img
+                src={openEyeImg}
+                alt="openEyeImg"
+                height={30}
+                width={30}
+                onClick={onclickShowPass}
+              />
+            ) : (
+              <img
+                src={closeEyeImg}
+                alt="openEyeImg"
+                height={30}
+                width={30}
+                onClick={onclickShowPass}
+              />
+            )}
+          </div>
           <button>Login</button>
+          <p style={{textAlign:"center"}}>Create new account ? <NavLink to='/' style={{textDecoration:"none"}}>SignUp</NavLink> </p>
         </div>
       </form>
     </div>

@@ -11,14 +11,14 @@ import PublicRoutes from "./publicRoutes";
 
 const Routes = createBrowserRouter([
   {
-    element: <PublicRoutes />,
+    element: <PublicRoutes/>,
     children: [
       {
         path: "/",
-        element: <AuthLayout />,
+        element: <AuthLayout/>,
         children: [
-          { index: true, element: <Signup /> },
-          { path: "login", element: <Login /> },
+          { index: true, element: <Signup/> },
+          { path: "login", element: <Login/> },
         ],
       },
     ],

@@ -1,11 +1,11 @@
-import { v4 as uuidv4 } from "uuid";
+
 import { useState } from "react";
 import {toast} from "react-toastify";
 
 import styles from "./form.module.css";
 import { useNotesContext } from "../../contexts/NotesContext";
 import { createNotesReq, editNotesReq } from "../../apis/notesApi";
-import type { Note } from "../../types/notes";
+import type { FormData } from "../../types/notes";
 
 const Form = () => {
   const {
@@ -17,16 +17,10 @@ const Form = () => {
     setContent,
     id,
     setId,
-    isFavs,
     buttonText,
   } = useNotesContext();
   console.log("iddd...",id)
-  const [note, setNote] = useState({
-    id: "",
-    title: "",
-    content: "",
-    isFavs: false
-  });
+
   const [isvalidate,setIsValidate] = useState(false);
 
   
@@ -39,7 +33,7 @@ const Form = () => {
     return true;
   }
   
-  async function createNotes(note:Note) {
+  async function createNotes(note:FormData) {
         try{
           const res = await createNotesReq(note);
           console.log("resposne==>",res);
@@ -52,7 +46,7 @@ const Form = () => {
           toast.error(err.response.data.message)
         }
   }
-  async function editNotes(formData:Note){
+  async function editNotes(formData:FormData){
         try{
           const res = await editNotesReq(id,formData);
           console.log('req sent..')
@@ -83,14 +77,9 @@ const Form = () => {
       //new note creation
       console.log("id not exists..");
       const newNote = {
-          id: uuidv4(),
           title: title,
           content: content,
-          isFavs: isFavs
         };
-
-       setNote(newNote);
-
         createNotes(newNote); //api function call
   
         closeModal();
@@ -104,7 +93,6 @@ const Form = () => {
           id: id,
           title: title,
           content: content,
-          isFavs: isFavs
         };
 
       console.log("id exits");

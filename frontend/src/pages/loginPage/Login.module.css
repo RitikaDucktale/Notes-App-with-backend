@@ -7,7 +7,7 @@
     background-color: #7B76CA;
 }
 .form{
-border: 2px solid #594894;
+    background-color: white;
     padding: 3rem 2rem 3rem 2rem;
     border-radius: 8px;
     transition: linear 0.3s;
@@ -34,4 +34,20 @@ border: 2px solid #594894;
     color: white;
     font-size: 1rem;
     font-weight: bold;
+}
+
+.inputField{
+    display: flex;
+     box-shadow: 1px 1px 3px 2px rgb(221, 219, 219);
+     border-radius: 8px;
+     align-items: center;                      
+     padding-right: 10px;
+     transition: linear 0.25s;
+
+}
+.inputField:hover{
+    transform: scale(1.01,1.01)
+}
+.inputField input:focus{
+    border: white;
 }

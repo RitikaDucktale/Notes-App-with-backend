@@ -1,118 +1,125 @@
 const fs = require("fs");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Note = require("../models/Note");
-
-// const getNotes = (req,res)=>{
-//     fs.readFile('notesData.json','utf-8',(err,data)=>{
-//         if(err){
-//             res.status(401).json({message:"error reading notes file."})
-//         }
-//          const notes = data.toString()? JSON.parse(data) : [];
-//          return res.json({
-//             notes:notes
-//          })
-
-//     });
-// }
+const FavNote = require("../models/FavNote");
 
 const getNotes = async (req, res) => {
-  const notes = await Note.find({
-    userId : req.user.id
-});
-  res.json(notes);  
+  try {
+    const notes = await Note.find({
+      userId: req.user.id,
+    });
+    res.json(notes);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };
 
 const createNotes = async (req, res) => {
-    console.log("Notes controller use id..",req.user)
-  if (!req.body) {
-    return res.status(401).json({
-      message: "body is empty",
-    });
-  }
   try {
-    const { title, content, isFavs } = req.body;
+    console.log("Notes controller use id..", req.user);
+    if (!req.body) {
+      return res.status(401).json({
+        message: "body is empty",
+      });
+    }
+    const { title, content } = req.body;
 
     const note = await Note.create({
-      title:title,
-      content:content,
-      isFavs:isFavs,
-      userId : req.user.id
+      title: title,
+      content: content,
+      userId: req.user.id,
     });
     res.json(note);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-
-  //    fs.readFile('notesData.json','utf-8',(err,data)=>{
-  //     if(err) console.log('error reading notes file');
-  //    const notes = (!err && data.toString())? JSON.parse(data) : [];
-  //    notes.push(req.body);
-
-  //    fs.writeFile('notesData.json',JSON.stringify(notes),(err)=>{
-  //     if(err){
-  //         console.log("File writing error..")
-  //     }
-  //     return res.json({
-  //         message:"notes created successfully.."
-  //     })
-  //    })
-  //    })
-  //    res.json({message:"note created.."})
 };
 
 const updateNotes = async (req, res) => {
-  const { id } = req.params;
-  const data = req.body;
-  console.log("put req recieved..", id, data);
-  const updatedNote = await Note.findByIdAndUpdate({_id:id, userId:req.user.id}, data, { new: true });
-  res.json(updatedNote);
+  try {
+    const { id } = req.params;
+    if (!id) return res.status(500).json({ message: "id is not present!" });
+    const data = req.body;
+    if (!data) {
+      return res
+        .status(500)
+        .json({ message: "data for updation is not present!" });
+    }
+    console.log("put req recieved..", id, data);
+    const updatedNote = await Note.findByIdAndUpdate(
+      { _id: id, userId: req.user.id },
+      data,
+      { new: true },
+    );
+    res.json(updatedNote);
+  } catch (err) {
+    res.json({ message: err.message });
+  }
 };
 
 const deleteNotes = async (req, res) => {
-  const { id } = req.params;
-  console.log("req received in deleteNotes..", req.params, req.body);
-  const deleteNote = await Note.findByIdAndDelete({_id:id, userId:req.user.id});
-  if (!deleteNote) {
-    res.status(404).json({
-      message: "Not found",
+  try {
+    const { id } = req.params;
+    console.log("req received in deleteNotes..", req.params, req.body);
+    const deleteNote = await Note.findByIdAndDelete({
+      _id: id,
+      userId: req.user.id,
     });
+    if (!deleteNote) {
+      return res.status(404).json({
+        message: "Not found",
+      });
+    }
+    res.json({
+      message: "Note deleted successfuly",
+      deleteNote,
+    });
+  } catch (err) {
+    res.json({ message: err.message });
   }
-  res.json({
-    message: "Note deleted successfuly",
-    deleteNote,
-  });
 };
 
 const favsToggler = async (req, res) => {
-    console.log('rq.id....',req.user.id)
-  console.log("patch favstoggler .");
   try {
-    const {id} = req.params;
-    console.log('id....',id)
+    const { id } = req.params;
+    const userId = req.user.id;
+    console.log("id....", id);
     console.log("favstoggler req received..", req.params);
 
-    const note1 = await Note.findById(id);
-    console.log("note1==>>",note1)
-    const note = await Note.findOne({
-        _id:id,
-        userId:req.user.id
-    })
-    console.log("note.....",note)
-  if(!note){
-    res.status(401).json({
-        message:"Note not found"
-    })
-  }
+    const existingNote = await FavNote.findOne({
+      noteId: id,
+      userId: req.user.id,
+    });
 
-    note.isFavs = !note.isFavs;
-    await note.save();
-    console.log("request sent..",note)
-    res.json(note);
-
+    if (!existingNote) {
+      await FavNote.create({ noteId: id, userId: userId });
+      return res.status(201).json({
+        message: "Added to favourites",
+        noteId: id,
+      });
+    } else {
+      await FavNote.findOneAndDelete({ noteId: id, userId: userId });
+      res.json({
+        message: "Removed from favourites",
+        noteId: id,
+      });
+    }
   } catch (err) {
     console.log(err);
     res.json({ message: err });
   }
+};
+
+const getFavNotes = async (req, res) => {
+  const { id } = req.user;
+  console.log("id*****,", id);
+  const favCollection = await FavNote.find({ userId: id });
+  const favNotesIds = favCollection.map((note) => note.noteId);
+  console.log(favNotesIds);
+  res.json({
+    succes: true,
+    favNotesIds,
+  });
 };
 
 module.exports = {
@@ -121,4 +128,5 @@ module.exports = {
   updateNotes,
   deleteNotes,
   favsToggler,
+  getFavNotes,
 };

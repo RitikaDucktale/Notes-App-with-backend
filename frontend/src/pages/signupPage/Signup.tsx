@@ -63,7 +63,7 @@ const Signup = () => {
       <form className={styles.form} onSubmit={onsubmitHandler}>
         <h1>Create a new account</h1>
         <div className={styles.inputContainer}>
-          <div className={styles.emailInput}>
+          <div className={styles.inputField}>
             <input
               type="email"
               placeholder="Email..."
@@ -73,7 +73,7 @@ const Signup = () => {
             />
           </div>
 
-          <div className={styles.emailInput}>
+          <div className={styles.inputField}>
             <input
               type={showPass ? "text" : "password"}
               placeholder="Password..."
@@ -101,7 +101,7 @@ const Signup = () => {
             )}
           </div>
 
-          <div className={styles.emailInput}>
+          <div className={styles.inputField}>
             <input type={showConfirmPass ? 'text': 'password'} placeholder="Confirm Password" />
             {showConfirmPass ? (
               <img
@@ -124,10 +124,10 @@ const Signup = () => {
 
           <button type="submit">Sign Up</button>
         </div>
-      </form>
-      <p>
-        Already have an account ? <NavLink to="/login">Login</NavLink>
+      <p style={{textAlign:"center"}}>
+        Already have an account ? <NavLink to="/login" style={{textDecoration:"none"}}>Login</NavLink>
       </p>
+      </form>
     </div>
   );
 };

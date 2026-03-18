@@ -13,7 +13,7 @@ import { AuthContextProvider } from './contexts/AuthContext';
 
 createRoot(document.getElementById('root')!).render(
    <>
-   <ToastContainer theme='light'/>
+   <ToastContainer theme='colored'autoClose={1500}/>
    <ErrorBoundary fallback={"Something went Wrong"}>
    <Suspense fallback='Loading...'>
    <AuthContextProvider>
@@ -22,7 +22,6 @@ createRoot(document.getElementById('root')!).render(
    </NotesProvider>
    </AuthContextProvider>
    </Suspense>
-      
    </ErrorBoundary>
    </>
 )

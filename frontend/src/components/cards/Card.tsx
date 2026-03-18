@@ -15,10 +15,11 @@ interface props {
 }
 const Card = (props: props) => {
   const {
+    favNotesIds,
+    setfavNotesIds,
     openFormPageModal,
     openDeleteModal,
     notes,
-    setNotes,
     setTitle,
     setContent,
     setId,
@@ -26,7 +27,6 @@ const Card = (props: props) => {
   } = useNotesContext();
   const { note } = props || {};
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
-
   const isLongContent = note.content.length > 300;
   console.log('longCOnte=====',isLongContent)
 
@@ -46,18 +46,28 @@ const Card = (props: props) => {
     openDeleteModal(id);
   };
 
-  const favsHandler = async (id: string,note:Note)=>{
+  const favsHandler = async (id: string)=>{
     try{
-      const res = await favsToggleReq(id,note);
+      const res = await favsToggleReq(id);
       console.log(res);
-      if(res.status===200){
-        toast.success('Successfully added in favourites, view in favuorites section!')
-        setNotes(prev=>{
-         return prev.map(note=>{
-          return (note._id=== res.data._id)? res.data : note; 
+      if(res.status===200 || res.status===201){
+        console.log(res)
+        if( res.data.message==="Added to favourites"){
+          console.log("added in favs....",res.data)
+          toast.success('Successfully added in favourites, view in favuorites section!')
+         setfavNotesIds(prev=> {
+          return [
+            ...prev,res.data.noteId
+          ]
          })
-        })
-      }
+        }else{
+          setfavNotesIds(prev=>{
+            return prev.filter(id=> id!==res.data.noteId)
+          })
+          toast.success('Removed from favourites!')
+          console.log("removed from favs....",res.data)
+        }
+      }  
     }catch(err:any){
       console.log(err);
       toast.error(err.response.data.message);
@@ -68,17 +78,17 @@ const Card = (props: props) => {
     <div className={styles.card}>
       <div className={styles.cardContent}>
         <div className={styles.favIcon}>
-          {note.isFavs ? (
+          {favNotesIds.includes(note._id) ? (
             <img
               src={fillStar}    
-              alt="favIcon"
-              onClick={() => favsHandler(note._id,note)}
+              alt="favIcon"                 
+              onClick={() => favsHandler(note._id)}
             />
           ) : (
             <img
               src={emptyStar}
               alt="favIcon"
-              onClick={() => favsHandler(note._id,note)}
+              onClick={() => favsHandler(note._id)}
             />
           )}
         </div>
@@ -97,7 +107,7 @@ const Card = (props: props) => {
         <img
           src={editIcon}
           alt=""
-          onClick={() => onEditHandler(note._id,note)}
+          onClick={() => onEditHandler(note._id)}
           className={styles.editIcon}
         />
         <img

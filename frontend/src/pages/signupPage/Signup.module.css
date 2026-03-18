@@ -52,11 +52,9 @@ background-color: white;
 .inputContainer button:hover{
     transform: translateY(-1px);
 }
-p a{
-    text-decoration: none;
-}
 
-.emailInput{
+
+.inputField{
     display: flex;
      box-shadow: 1px 1px 3px 2px rgb(221, 219, 219);
       border-radius: 8px;
@@ -64,12 +62,7 @@ p a{
       padding-right: 10px;
       transition: linear 0.25s;
 }
-/* .emailInput :focus{
-    border: 2px solid #454272;
-} */
- /* .emailInput :hover{
-    transform: scale(1.1,1.1);
- } */
-  .emailInput:hover{
+.inputField:hover{
     transform: scale(1.01,1.01)
-  }
+} 
+

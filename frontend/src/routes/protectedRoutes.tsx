@@ -14,4 +14,3 @@ import { isTokenExpired } from "../utilities/utility";
   return token ? <Outlet/> : <Navigate to='/'/>; 
 }                                                                                                                                                                                                                                           
 
-

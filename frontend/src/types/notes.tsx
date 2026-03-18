@@ -1,9 +1,12 @@
 
 export interface Note{
-    id:string;
+    _id:string;
     title:string;
     content:string;
-    isFavs:Boolean;
+}
+export interface FormData{
+    title:String,
+    content:String
 }
 
 export type ModalType = 'formPage' | 'delete' | null;
@@ -11,13 +14,13 @@ export type ModalType = 'formPage' | 'delete' | null;
 export interface Notes{
     notes:Note[];
     setNotes:React.Dispatch<React.SetStateAction<Note[]>>;
+    favNotesIds:string[];
+    setfavNotesIds:React.Dispatch<React.SetStateAction<string[]>>;
     modalType:ModalType;
     modalData:any;
     openFormPageModal:()=> void;
     openDeleteModal:(id:string)=>void;
     closeModal: ()=> void;
-    isFavs:boolean;
-    setIsFavs:React.Dispatch<React.SetStateAction<boolean>>;
     title:string;
     setTitle:React.Dispatch<React.SetStateAction<string>>;
     content:string;
