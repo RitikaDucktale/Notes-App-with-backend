@@ -12,6 +12,7 @@ const getNotesReq = () => {
 };
 
 const createNotesReq = (data: FormData) => {
+  console.log(data)
   const token = localStorage.getItem("token");
   console.log("post api note data..", data);
   return api.post("/notes", data, {

@@ -6,6 +6,8 @@ import Modal from "../../components/modal/Modal";
 import FormPage from "../../components/formPage/FormPage";
 import styles from "./MainLayout.module.css";
 import DeletePopup from "../../components/popUp/DeletePopup";
+import Header from "../../components/header/Header";
+import Profile from "../../pages/profile/Profile";
 
 const MainLayout = () => {
   const { modalType } = useNotesContext();
@@ -13,6 +15,7 @@ const MainLayout = () => {
     switch(modalType){
       case 'formPage' : return <FormPage/>;
       case 'delete' : return <DeletePopup/> ;
+      case 'profile' : return <Profile/>
       default :
       return null;
     }
@@ -23,10 +26,15 @@ const MainLayout = () => {
         <div>
           <Sidebar />
         </div>
+
         { modalType && <Modal>
             { renderModalLayout() }
           </Modal> }
         <div className={styles.mainSection}>
+         <div className={styles.header}>
+        <Header/>
+        
+        </div>
           <Outlet />
         </div>
       </div>

@@ -1,0 +1,7 @@
+.container{
+    background-color: hwb(244 46% 21%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

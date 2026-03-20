@@ -16,11 +16,13 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
   const [modalType, setModalType] = useState<ModalType>(null);
   const [modalData, setModalData] = useState<any>(null);
 
+  const [isProfilePic,setIsProfilePic] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [id, setId] = useState("");
   const [buttonText, setButtonText] = useState("Create");
   const [loader,setLoader] = useState(false);
+  const [profile, setProfile] = useState<string>("");
   
   const openFormPageModal = () => {
     setModalType("formPage");
@@ -30,6 +32,10 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
     setModalType("delete");
     setModalData(id);
   };
+  const openProfileModal = ()=>{
+    setModalType('profile');
+    setModalData(null);
+  }
   const closeModal = () => {
     setModalType(null);
     setModalData(null);
@@ -54,9 +60,14 @@ export const NotesProvider = ({ children }: PropsWithChildren) => {
         modalData,
         openFormPageModal,
         openDeleteModal,
+        openProfileModal,
         closeModal,
         loader,
-        setLoader
+        setLoader,
+        isProfilePic,
+        setIsProfilePic,
+        profile, 
+        setProfile
       }}
     >
       {children}

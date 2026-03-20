@@ -8,6 +8,8 @@ import styles from "./NotesPage.module.css";
 import NotFoundImg from "../../assets/notFoundImg.png";
 import EmptyNotes from "../../assets/EmptyNotes.png";
 import Header from "../../components/header/Header";
+import SearchBar from "../../components/search/SearchBar";
+import NewNoteBtn from "../../components/newNoteBtn/NewNoteBtn";
 const DisplayNotes = lazy(
   () => import("../../components/displayNotes/DisplayNotes"),
 );
@@ -103,12 +105,17 @@ const NotesPage = () => {
   return (
     <>
       <div className={styles.container}>
-        <div>
-          <Header searchVal={searchVal} setSearchVal={setSearchVal} />
-        </div>
-        <div className={styles.heading}>
+
+        <div className={styles.notesPageHeader}>
           <h1>MY NOTES</h1>
-          <div className={styles.btns}>
+          <div className={styles.headerSection2}>
+      
+          {/* <Header searchVal={searchVal} setSearchVal={setSearchVal} /> */}
+          <SearchBar searchVal={searchVal} setSearchVal={setSearchVal}/>
+        <NewNoteBtn/>
+        </div>
+        </div>  
+            <div className={styles.btns}>
             {btnIds.map((id) => (
               <button
                 key={id}
@@ -121,7 +128,6 @@ const NotesPage = () => {
               </button>
             ))}
           </div>
-        </div>  
         <div className={styles.notesContainer}>
           {notes.length === 0 ? (
             <div className={styles.notFound}> <img src={EmptyNotes} alt="Empty Notes"/></div>

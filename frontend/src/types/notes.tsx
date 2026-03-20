@@ -9,7 +9,8 @@ export interface FormData{
     content:String
 }
 
-export type ModalType = 'formPage' | 'delete' | null;
+
+export type ModalType = 'formPage' | 'delete' | 'profile' | null;
 
 export interface Notes{
     notes:Note[];
@@ -20,6 +21,7 @@ export interface Notes{
     modalData:any;
     openFormPageModal:()=> void;
     openDeleteModal:(id:string)=>void;
+    openProfileModal:()=>void;
     closeModal: ()=> void;
     title:string;
     setTitle:React.Dispatch<React.SetStateAction<string>>;
@@ -31,5 +33,9 @@ export interface Notes{
     setButtonText:React.Dispatch<React.SetStateAction<string>>;
     loader:boolean;
     setLoader:React.Dispatch<React.SetStateAction<boolean>>;
+    isProfilePic:boolean;
+    setIsProfilePic:React.Dispatch<React.SetStateAction<boolean>>;
+    profile:string;
+    setProfile:React.Dispatch<React.SetStateAction<string>>;
 
 }

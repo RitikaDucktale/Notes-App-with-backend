@@ -1,24 +1,16 @@
 
-//not needed anymore for now ........
 
+import { createContext,useContext,useState, type PropsWithChildren } from "react"
 
-
-import { createContext,useContext, useEffect, useState, type PropsWithChildren } from "react"
-
-import type {AuthStates,User} from '../types/authTypes';
-import Login from "../pages/loginPage/Login";
-import { Navigate, NavLink, useNavigate } from "react-router-dom";
+import type {AuthStates,UserInfo} from '../types/authTypes';
 const AuthContext = createContext<AuthStates | null>(null);
 export const AuthContextProvider = ({children}:PropsWithChildren) => {
   
-    const [loggedInUsers,setLoggedInUsers] = useState<User | null>(null);
+    const [loggedInUser,setLoggedInUser] = useState<UserInfo | null>(null);
 
-
- console.log("loggedInusers from useEffect==",loggedInUsers)
-  const [signedUpUsers,setsignedUpUsers] = useState<User[]>([]);
 
   return (
-    <AuthContext.Provider value={{signedUpUsers,setsignedUpUsers,loggedInUsers,setLoggedInUsers}}>
+    <AuthContext.Provider value={{loggedInUser,setLoggedInUser}}>
         {children}
     </AuthContext.Provider>
   )

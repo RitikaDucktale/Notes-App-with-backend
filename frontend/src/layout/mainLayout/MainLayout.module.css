@@ -3,14 +3,18 @@
     width: 100vw;
     display: flex;
     overflow: hidden;
-    gap: 2px;
+    gap: 10px;
 }
 .mainSection{
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    gap: 5px;
     /* gap: 1rem; */
+    background-color: rgb(243, 240, 245);
+    
 }
+
 .outlet{
     background-color: #F9F9F9;
     /* margin: auto 1rem;

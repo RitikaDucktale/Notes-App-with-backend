@@ -1,13 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "../layout/mainLayout/MainLayout";
-import Home from "../pages/home/Home";
 import NotesPage from "../pages/notes/NotesPage";
 import AuthLayout from "../layout/authLayout/AuthLayout";
 import Signup from "../pages/signupPage/Signup";
 import Login from "../pages/loginPage/Login";
 import { ProtectedRoutes } from "./protectedRoutes";
 import PublicRoutes from "./publicRoutes";
+import Profile from "../pages/profile/Profile";
+import { lazy } from "react";
+// import Home from "../pages/home/Home";
+const Home = lazy(()=> import('../pages/home/Home'))
 
 const Routes = createBrowserRouter([
   {
@@ -44,6 +47,16 @@ const Routes = createBrowserRouter([
           {
       index:true,
       element: <NotesPage />,
+    }
+        ],
+      },
+       {
+        path: "/profile",
+        element: <MainLayout />,
+        children: [
+          {
+      index:true,
+      element: <Profile />,
     }
         ],
       },

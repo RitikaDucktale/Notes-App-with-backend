@@ -3,15 +3,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { loginApi } from "../../apis/authApi";
-import type { User } from "../../types/authTypes";
 
 import openEyeImg from "../../assets/eye.png";
 import closeEyeImg from "../../assets/closed-eyes.png";
 import styles from "../loginPage/Login.module.css";
 import { useNotesContext } from "../../contexts/NotesContext";
+import { useAuth } from "../../contexts/AuthContext";
+
+interface User{
+  email:string,
+  password:string
+}
 
 const Login = () => {
   const {setNotes,notes} = useNotesContext();
+  const {setLoggedInUser,loggedInUser}  = useAuth();
     const [showPass, setshowPass] = useState(false);
   
   console.log("notes",notes)
@@ -38,10 +44,12 @@ const Login = () => {
       console.log(res);
       if (res.status == 200) {
         const token = res.data?.token;
+        setLoggedInUser(res.data?.userInfo);
         localStorage.setItem("token", token);
         toast.success("Login Successfull")
         navigate("/dashboard");
          setNotes([]);
+          
       }
     } catch (err:any) {
       toast.error(err.response.data.message )

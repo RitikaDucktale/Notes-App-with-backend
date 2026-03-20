@@ -6,7 +6,8 @@ const User = require('../models/User');
 
 const signup = async (req, res) => {
   try{
-  const {email,password} = req.body;
+  const {email,password,firstName,lastName} = req.body;
+  console.log("sign up data ==>",email,password,firstName,lastName)
   if(!email || !password){
     return res.status(400).json({
       message:"Email and password are required"
@@ -15,15 +16,14 @@ const signup = async (req, res) => {
 
     const existingUser = await User.findOne({email}); // returns promise..
     if(existingUser){
-      console.log(true
-      )
+
      return res.status(400).json({
         message:"User already exists . Please Login"
       })
     }
     const hashedPassword = await hashPass(password);
     console.log("hash pass...",hashedPassword)
-   const user = await User.create({ email,password: hashedPassword})
+   const user = await User.create({ firstName,lastName,email,password: hashedPassword})
   //  console.log(user)
    res.json({
      user,
@@ -89,19 +89,21 @@ const login = async (req, res) => {
         message:"Invalid email or password!"
       })
     }
-
+    const userInfo = {firstName:user.firstName,lastName:user.lastName,email:user.email}
     const token = await jwt.sign({id:user.id,email:email},secretKey,{expiresIn:"1h"})
     console.log("inside login user id...",user.id)
     res.json({
       message:"user login successfully",
-      token:token
+      token:token,
+      userInfo: userInfo  
+      
     })
 
   }catch(err){
     return res.status(500).json({
       message:err
     })
-
+ 
   }
 }
 

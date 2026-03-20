@@ -1,12 +1,17 @@
 import type { SetStateAction } from "react";
 
 export interface AuthStates {
-  signedUpUsers: User[];
-  setsignedUpUsers:React.Dispatch<SetStateAction<User[]>>;
-  loggedInUsers: User | null;
-  setLoggedInUsers: React.Dispatch<SetStateAction<User|null>>;
+  loggedInUser: UserInfo | null;
+  setLoggedInUser: React.Dispatch<SetStateAction<UserInfo|null>>;
 }
 export interface User {
-  email: string;
-  password: string;
+firstName:string,
+lastName:string,
+email:string,
+password:string
+}
+export interface UserInfo{
+  firstName:string,
+  lastName:string,
+  email:string
 }

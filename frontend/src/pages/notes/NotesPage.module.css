@@ -10,26 +10,33 @@
   flex-direction: column;
   height: 100vh;
 }
-.heading h1 {
+.notesPageHeader h1 {
   margin: 0 0 0 1rem;
   color: #343357;
   /* box-shadow: 2px 2px 4px ; */
 }
-.heading {
+.notesPageHeader {
   display: flex;
   justify-content: space-between;
-  background-color: #aca6f8;
-  box-shadow: 1px 1px 2px #8d89cc;
+  
+  /* background-color: #aca6f8; */
+  /* box-shadow: 1px 1px 2px #8d89cc; */
   border-radius: 5px;
   margin: 0 1rem;
   padding: 0.1rem;
 }
-.heading .btns {
-  margin-right: 0.5rem;
+.headerSection2{
+  display: flex;
+  flex-grow: 1 ;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.notesPageHeader .btns {
+  /* margin-right: 0.5rem; */
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 1rem;
+  /* gap: 1rem; */
 }
 /* .btns{
     flex-grow: 1;
