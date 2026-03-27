@@ -115,13 +115,13 @@ const NotesPage = () => {
         <NewNoteBtn/>
         </div>
         </div>  
-            <div className={styles.btns}>
+          <div className={styles.btns}>
             {btnIds.map((id) => (
               <button
                 key={id}
                 onClick={() => onclickHandler(id)}
                 className={
-                  activeBtnId === id ? styles.highlightedBtn : styles.btn
+                  activeBtnId === id ? styles.highlightedBtn : styles.displayBtns
                 }
               >
                 {id}
@@ -129,15 +129,18 @@ const NotesPage = () => {
             ))}
           </div>
         <div className={styles.notesContainer}>
-          {notes.length === 0 ? (
-            <div className={styles.notFound}> <img src={EmptyNotes} alt="Empty Notes"/></div>
-          ) : displayNotes.length === 0 ? (
+          {notes.length !== 0 ? displayNotes.length === 0 ? (
             <div className={styles.notFound}><img src={NotFoundImg} alt="Not Found" /></div>
-          ) : (
+          ) :
+             (
             <Suspense fallback={<Loader />}>
               <DisplayNotes displayNotes={displayNotes} />
             </Suspense>
-          )}
+          )
+          :
+          ( <div className={styles.notFound}> <img src={EmptyNotes} alt="Empty Notes"/></div>)
+          
+       }
         </div>
       </div>
     </>

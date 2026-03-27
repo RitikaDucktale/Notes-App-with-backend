@@ -10,15 +10,6 @@ interface Props {
 const SearchBar = (props:Props) => {
     const {searchVal,setSearchVal} = props||{};
 
-
-//   const onclickHandler = () => {
-//     if (searchVal.trim() !== "") {
-//       displayNotes = displayNotes.filter((note) => {
-//         note.title.toLowerCase().includes(searchVal.toLowerCase()) ||
-//           note.content.toLowerCase().includes(searchVal.toLowerCase());
-//       });
-//     }
-//   };
   return (
     <div className={styles.container}>
       <img src={SearchIcon} alt="SearchIcon" />

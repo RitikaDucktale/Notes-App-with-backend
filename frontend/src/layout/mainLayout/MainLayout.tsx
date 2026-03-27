@@ -30,6 +30,8 @@ const MainLayout = () => {
         { modalType && <Modal>
             { renderModalLayout() }
           </Modal> }
+  
+
         <div className={styles.mainSection}>
          <div className={styles.header}>
         <Header/>

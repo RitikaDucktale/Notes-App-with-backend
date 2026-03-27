@@ -41,9 +41,13 @@ const Form = () => {
             toast.success("New note created successfully!")
             setNotes(prev=> [...prev,res?.data]);
           }
+           closeModal();
+            setTitle("");
+        setContent("");
         }catch(err:any){
           console.log("Error creating notes..",err)
           toast.error(err.response.data.message)
+            
         }
   }
   async function editNotes(formData:FormData){
@@ -62,9 +66,13 @@ const Form = () => {
               })
             })
           }
+           closeModal();
+      setId("");
+      setTitle("");
+      setContent("");
         }catch(err:any){
           console.log(err);
-          toast.error(err.res.data.message)
+          toast.error(err.response.data.message)
         }
 
       }
@@ -82,15 +90,10 @@ const Form = () => {
         };
         createNotes(newNote); //api function call
   
-        closeModal();
-        setTitle("");
-        setContent("");
-  
     } else {
       //edit exiting note
       console.log("idddd..",id)
           const formData = {
-          id: id,
           title: title,
           content: content,
         };
@@ -98,10 +101,7 @@ const Form = () => {
       console.log("id exits");
       editNotes(formData);
   
-      closeModal();
-      setId("");
-      setTitle("");
-      setContent("");
+     
     }
   };
 
