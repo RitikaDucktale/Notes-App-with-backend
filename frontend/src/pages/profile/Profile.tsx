@@ -3,8 +3,11 @@ import { toast } from "react-toastify";
 import { useAuth } from "../../contexts/AuthContext";
 import { postUserProfileReq } from "../../apis/userApi";
 import { useNotesContext } from "../../contexts/NotesContext";
-import editImage from "../../assets/edit-image.png";
+import editImage from "../../assets/pen (1).png";
+import closeIcon from "../../assets/close.png";
 import styles from "./Profile.module.css";
+
+
 const Profile = () => {
   const { closeModal, isProfilePic, setIsProfilePic, profile, setProfile } =
     useNotesContext();
@@ -40,13 +43,13 @@ const Profile = () => {
       if(res){
         toast.success('Profile updated succesfuly!');
         setProfile(preview);
-        setIsProfilePic(false);
+        setIsProfilePic(true);
         closeModal();
       }
     } catch (err:any) {
 
     toast.error(err?.response?.data?.message)
-      setProfile("");
+      setProfile(prev=> prev);
     }
   };
 
@@ -60,6 +63,7 @@ const Profile = () => {
   };
   const onCancel = () => {
     if (!profile) {
+      console.log('profile==> in on cancel',profile)
       setPreview("");
     } else {
       setPreview(profile);
@@ -72,34 +76,33 @@ const Profile = () => {
       <>
         <button onClick={onCancel}>Cancel</button>
         <button onClick={onSave} style={{ padding: "0.3rem 0.75rem 0.3rem 0.75rem"}}>Save</button>
-      </>
-    );
+      </>    );
   };
 
-  const onMouseEnterHandler = () => {
-    console.log("hovered..");
-    setEdit(true);
-  };
 
-  const onMouseOutHandler = () => {
-    setEdit(false);
-    console.log("out..");
-  };
+  const oncloseHandler = ()=>{
+    closeModal();
+  }
+
   return (
     
     <div className={styles.container}>
-      <h2 className={styles.heading}>My profile</h2>
+      <div className={styles.heading}>
+      <h2 >My profile</h2>
+    <img src={closeIcon} alt="close" height={15} onClick={oncloseHandler}/>
+      </div>
       <div className={styles.profileContainer}>
       <div className={styles.imgInput}>
         <label htmlFor="imgIcon">
           <div className={styles.profileImg}>
+              <img src={editImage} alt="" height={35} className={styles.editIcon} />
             {preview ? (
-              <img src={preview} alt="preview" />
+              <img src={preview} alt="preview" className={styles.profilePicture}/>
             ) : (
               <h1>{firstLetter}</h1>
             )}
             <div className={styles.overlay}>
-              <img src={editImage} alt="" />
+            
             </div>
           </div>
         </label>

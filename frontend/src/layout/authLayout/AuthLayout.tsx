@@ -4,7 +4,6 @@ const AuthLayout = () => {
   return (
     <div className={styles.container}>
       <Outlet/>
-
     </div>
   )
 }

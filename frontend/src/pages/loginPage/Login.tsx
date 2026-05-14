@@ -17,7 +17,7 @@ interface User{
 
 const Login = () => {
   const {setNotes,notes} = useNotesContext();
-  const {setLoggedInUser,loggedInUser}  = useAuth();
+  const {setLoggedInUser}  = useAuth();
     const [showPass, setshowPass] = useState(false);
   
   console.log("notes",notes)
@@ -127,7 +127,7 @@ const Login = () => {
               />
             )}
           </div>
-          <button>Login</button>
+          <button type="submit">Login</button>
           <p style={{textAlign:"center"}}>Create new account ? <NavLink to='/' style={{textDecoration:"none"}}>SignUp</NavLink> </p>
         </div>
       </form>
