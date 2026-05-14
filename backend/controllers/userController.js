@@ -9,7 +9,7 @@ const getUserInfo = async (req, res) => {
     const { id } = req.user;
     console.log("userId==>", id);
     const userInfo = await User.findById(id);
-    if (!userInfo) {
+    if (!userInfo) {  
       return res.status(404).json({
         message: "User not found!",
       });

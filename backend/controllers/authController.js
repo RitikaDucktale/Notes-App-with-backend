@@ -36,7 +36,7 @@ const signup = async (req, res) => {
     })
     console.log(err)
   }
-  // let users = [];   //to parse ans store json data from users.json file
+  //let users = [];   //to parse ans store json data from users.json file
 
   // fs.readFile("users.json",  async (err, data) => {
   //   if (err) {

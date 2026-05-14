@@ -14,7 +14,7 @@ const authMiddleware = (req,res,next)=>{
         })
     }
     const token = authHeader.split(" ")[1];
-   try{
+     try{
     console.log('inside try block...')
        const decoded = jwt.verify(token,secretKey);
        console.log("decodes..",decoded)
